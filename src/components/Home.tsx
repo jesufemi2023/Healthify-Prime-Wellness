@@ -150,7 +150,7 @@ export function Home({
   return (
     <div className="space-y-8 md:space-y-10 pb-12">
       
-      {/* 1. Hero Section - Majestic Editorial Split Brand Grid */}
+      {/* 1. Hero Section - Majestic Editorial Brand Trilogy Grid */}
       <section className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] w-full overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 flex items-center py-10 md:py-16">
         {/* Subtle atmospheric ambient glow effects */}
         <div className="absolute top-0 right-0 w-2/3 h-full overflow-hidden pointer-events-none z-0 opacity-40">
@@ -158,97 +158,34 @@ export function Home({
           <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-teal-600 rounded-full blur-[140px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
           
-          {/* Left Column: Brand Column (Editorial Text & Main Call To Action) */}
-          <div className="lg:col-span-6 flex flex-col items-start text-left space-y-6 md:space-y-8">
+          {/* First Section (Left Column: 25% Desktop Allocation / Top Position on Mobile) */}
+          <div className="lg:col-span-3 flex flex-col items-start text-left space-y-5">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-400/25 rounded-full text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-emerald-400"
+              className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-400/25 rounded-full text-[10px] font-black uppercase tracking-[0.2em] text-emerald-400"
             >
-              <Sparkles size={12} className="animate-pulse" />
-              <span>Global Wellness Portfolio</span>
+              <Sparkles size={11} className="animate-pulse" />
+              <span>Wellness Portfolio</span>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.15 }}
-              className="space-y-5"
+              className="space-y-4"
             >
-              <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-sans font-black tracking-tight text-white leading-[1.05]">
+              <h1 className="text-3xl sm:text-4xl lg:text-3xl xl:text-4xl font-sans font-black tracking-tight text-white leading-[1.12]">
                 RECLAIM <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 font-serif font-black italic">YOUR VITALITY</span> <br />
                 CONQUER CHRONIC <br />
                 AILMENTS.
               </h1>
-              <p className="text-base md:text-xl text-slate-200 font-semibold leading-relaxed max-w-2xl bg-slate-950/20 backdrop-blur-sm p-3.5 rounded-2xl border border-white/5">
-                Join over <span className="text-emerald-400 underline decoration-2 decoration-teal-400">45,000+ healthy Nigerians</span>. Professional-grade Traditional Chinese Medicine & NAFDAC-approved herbal formulations targeting cells to heal disease from the roots up.
+              <p className="text-xs sm:text-sm text-slate-300 font-semibold leading-relaxed bg-slate-950/25 backdrop-blur-sm p-3 rounded-xl border border-white/5">
+                Join over <span className="text-emerald-400 underline decoration-2 decoration-teal-400 font-black">45,000+ healthy Nigerians</span>. Discover active herbal formulas crafted to support cellular restoration.
               </p>
-            </motion.div>
-
-            {/* Crucial Trust Selling Bullet Points */}
-            <motion.div 
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="space-y-2.5 text-slate-300 text-sm font-bold w-full"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
-                <span>NAFDAC Certified Formulas: 100% Safe, Tested, and Non-Toxic</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
-                <span>Premium Traditional Chinese Medicine (TCM) with Bio-Active Organic Extracts</span>
-              </div>
-              <div className="flex items-center gap-2.5">
-                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
-                <span>Pay on Delivery across Nigeria, with Free Express Delivery and real Tracking support</span>
-              </div>
-            </motion.div>
-
-            {/* Interactive Symptom Helper - Instantly connect users to the right product */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="bg-slate-900/40 p-4 rounded-3xl border border-white/10 w-full space-y-3"
-            >
-              <div className="flex items-center gap-2 text-xs font-black uppercase text-emerald-400 tracking-wider">
-                <Activity size={14} className="animate-pulse" />
-                <span>What health solution are you looking for?</span>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {[
-                  { label: "Diabetes & Blood Sugar", searchKey: "dia" },
-                  { label: "High Blood Pressure", searchKey: "tension" },
-                  { label: "Fibroids & Infertility", searchKey: "female" },
-                  { label: "Prostate Health", searchKey: "men" },
-                  { label: "Ulcers & Stomach", searchKey: "sto" },
-                  { label: "Detox & Total Purifying", searchKey: "tea" }
-                ].map((ailment, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      onNavigate('products');
-                      // Wait short moment to allow tab state to mount input search box
-                      setTimeout(() => {
-                        const input = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
-                        if (input) {
-                          input.value = ailment.searchKey;
-                          input.dispatchEvent(new Event('input', { bubbles: true }));
-                          input.focus();
-                        }
-                      }, 100);
-                    }}
-                    className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 border border-white/10 transition-all duration-300 shadow-sm"
-                  >
-                    + {ailment.label}
-                  </button>
-                ))}
-              </div>
             </motion.div>
 
             {/* Premium CTA Buttons */}
@@ -256,66 +193,28 @@ export function Home({
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+              className="flex flex-col gap-2.5 w-full"
             >
               <button
                 onClick={() => onNavigate('products')}
-                className="w-full sm:w-auto px-8 py-4.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-base tracking-wide hover:from-emerald-400 hover:to-teal-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_10px_35px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2"
+                className="w-full px-5 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-xs uppercase tracking-wider hover:from-emerald-400 hover:to-teal-400 hover:scale-[1.02] active:scale-95 transition-all duration-300 shadow-[0_10px_25px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2"
               >
                 <span>Shop Certified Formulas</span>
-                <ShoppingBag size={18} />
+                <ShoppingBag size={14} />
               </button>
               <button
                 onClick={() => onNavigate('consultation')}
-                className="w-full sm:w-auto px-8 py-4.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-extrabold text-base tracking-wide border border-white/20 hover:border-white/40 transition-all duration-300 flex items-center justify-center gap-2"
+                className="w-full px-5 py-3 rounded-xl bg-white/10 hover:bg-white/15 text-white font-extrabold text-xs uppercase tracking-wider border border-white/20 hover:border-white/40 transition-all duration-300 flex items-center justify-center gap-2"
               >
-                <span>Ask Doctor / Consultation</span>
-                <ArrowRight size={18} />
+                <span>Ask Consultant</span>
+                <ArrowRight size={14} />
               </button>
-            </motion.div>
-
-            {/* Dynamic Real-time Marketing Stock alert */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="text-xs font-bold text-amber-400/95 flex items-center gap-1.5"
-            >
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
-              <span>🔥 17 packages dispatched to Lagos, Port Harcourt, and Abuja in the last 2 hours of today! Stock is limited.</span>
-            </motion.div>
-
-            {/* Integrated Authority Badges below the CTA */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.45 }}
-              className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10 w-full"
-            >
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Globe size={18} />
-                </div>
-                <div>
-                  <h4 className="text-[11px] font-black uppercase text-white tracking-wider leading-none mb-0.5">Free Delivery</h4>
-                  <p className="text-[10px] text-slate-400/90 font-medium font-bold">Nigeria & Worldwide</p>
-                </div>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 shrink-0">
-                  <Leaf size={18} />
-                </div>
-                <div>
-                  <h4 className="text-[11px] font-black uppercase text-white tracking-wider leading-none mb-0.5">100% Organic</h4>
-                  <p className="text-[10px] text-slate-400/90 font-medium font-bold">Bio-active herbal extracts</p>
-                </div>
-              </div>
             </motion.div>
           </div>
 
-          {/* Right Column: Visual Showcase Rotating supplementing images */}
+          {/* Second Section (Middle Column: 50% Desktop Allocation / Multi-Item Image Carousel) */}
           <div className="lg:col-span-6 w-full flex flex-col items-center justify-center relative">
-            <div className="relative w-full aspect-[5/4] sm:aspect-[4/3] lg:aspect-square max-w-[520px] rounded-3xl overflow-hidden bg-slate-900/40 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-sm flex items-center justify-center p-4 group/carousel">
+            <div className="relative w-full aspect-square sm:aspect-[4/3] lg:h-[480px] rounded-3xl overflow-hidden bg-slate-900/40 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-sm flex items-center justify-center p-2 group/carousel">
               
               {/* Image Track */}
               <div className="absolute inset-0">
@@ -376,14 +275,103 @@ export function Home({
                   <button
                     key={index}
                     onClick={() => setCurrentHeroIndex(index)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      index === currentHeroIndex ? "bg-emerald-400 w-8" : "bg-white/20 w-3 hover:bg-white/40"
-                    }`}
+                    className="h-1.5 rounded-full transition-all duration-300 first:ml-0"
+                    style={{
+                      width: index === currentHeroIndex ? "32px" : "12px",
+                      backgroundColor: index === currentHeroIndex ? "#34d399" : "rgba(255,255,255,0.2)"
+                    }}
                     aria-label={`Go to slide ${index + 1}`}
                   />
                 ))}
               </div>
             </div>
+          </div>
+
+          {/* Third Section (Right Column: 25% Desktop Allocation / Bottom Position on Mobile) */}
+          <div className="lg:col-span-3 flex flex-col items-start text-left space-y-5">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-2"
+            >
+              <h3 className="text-xs font-black uppercase tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-teal-300 to-emerald-400">
+                ROOT-CAUSE RECOVERY
+              </h3>
+              <p className="text-xs text-slate-300 font-bold leading-relaxed">
+                Experience clinical-grade Traditional Chinese Medicine (TCM) and premium NAFDAC organic formulas designed to target roots for biological balance.
+              </p>
+            </motion.div>
+
+            {/* Interactive Symptom Helper inside Column 3 */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="bg-slate-900/40 p-3.5 rounded-2xl border border-white/10 w-full space-y-2.5"
+            >
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase text-emerald-400 tracking-wider">
+                <Activity size={12} className="animate-pulse" />
+                <span>What are you treating?</span>
+              </div>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  { label: "Diabetes & Sugar", searchKey: "dia" },
+                  { label: "High BP / Tension", searchKey: "tension" },
+                  { label: "Female Pelvic Care", searchKey: "female" },
+                  { label: "Prostate Wellness", searchKey: "men" },
+                  { label: "Stomach Ulcer", searchKey: "sto" },
+                  { label: "Detoxification", searchKey: "tea" }
+                ].map((ailment, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      onNavigate('products');
+                      // Wait short moment to allow tab state to mount input search box
+                      setTimeout(() => {
+                        const input = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
+                        if (input) {
+                          input.value = ailment.searchKey;
+                          input.dispatchEvent(new Event('input', { bubbles: true }));
+                          input.focus();
+                        }
+                      }, 100);
+                    }}
+                    className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 border border-white/5 transition-all duration-300"
+                  >
+                    + {ailment.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Crucial Trust Selling Indicators */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="space-y-2 text-slate-300 text-xs font-bold w-full pt-1"
+            >
+              <div className="flex items-center gap-2">
+                <span className="w-4 h-4 bg-emerald-500/15 border border-emerald-400/35 text-emerald-400 rounded-full flex items-center justify-center text-[10px] shrink-0 font-extrabold">✓</span>
+                <span className="truncate">NAFDAC Certified Products</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="w-4 h-4 bg-emerald-500/15 border border-emerald-400/35 text-emerald-400 rounded-full flex items-center justify-center text-[10px] shrink-0 font-extrabold">✓</span>
+                <span className="truncate">Pay on Delivery + Free Tracking</span>
+              </div>
+            </motion.div>
+
+            {/* Dynamic Real-time Stock / Dispatch alert */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.35 }}
+              className="text-[10px] font-black text-amber-400/95 flex items-center gap-1.5 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1.5 rounded-xl w-full"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-ping shrink-0"></span>
+              <span className="truncate">stock alert: Limited batches left.</span>
+            </motion.div>
           </div>
 
         </div>
