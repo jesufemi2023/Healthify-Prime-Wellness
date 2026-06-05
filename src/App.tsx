@@ -496,8 +496,31 @@ export default function App() {
     window.open(`https://wa.me/${CONFIG.whatsapp.number.replace(/\D/g, '')}?text=${encodeURIComponent(CONFIG.whatsapp.defaultMessage)}`, '_blank');
   };
 
+  // Luxury Organic & Bio-medical wellness backgrounds for beautiful look & feel in each page segment
+  const getDynamicPageBackground = () => {
+    switch (activeTab) {
+      case "home":
+        // Premium fresh warm mint cream gradient that feels highly welcoming and elite
+        return "bg-gradient-to-b from-[#FAFBF9] via-[#F3F7F4] to-[#FAFDFC]";
+      case "products":
+      case "product-detail":
+        // Clinical, pure soft leaf backdrop that highlights supplements beautifully
+        return "bg-gradient-to-b from-[#EEF3EF] via-[#FAFDFB] to-[#EEF3EF]";
+      case "recommended":
+      case "combo":
+        // Prestigious champagne-pearl luxury gold nature glow for premium health kits
+        return "bg-gradient-to-br from-[#FAF7F1] via-[#FDFCF9] to-[#FAF6EE]";
+      case "blog":
+      case "blog-post":
+        // Soothing mineral herbal-infusion white for deep post readability
+        return "bg-gradient-to-b from-[#F2F5F3] to-[#F1F6F3]";
+      default:
+        return "bg-neutral-50/70";
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#F8FAFC] font-sans text-slate-900">
+    <div className={`min-h-screen ${getDynamicPageBackground()} selection:bg-emerald-100 selection:text-emerald-900 font-sans text-slate-900 transition-colors duration-700`}>
       {/* Sticky Top Navigation Container */}
       <div className="sticky top-0 z-50 shadow-sm">
         {/* Top Announcement Bar */}
@@ -544,7 +567,7 @@ export default function App() {
             </div>
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center justify-center gap-4 xl:gap-6 flex-1 px-4">
+            <nav className="hidden lg:flex items-center justify-center gap-1 xl:gap-2 flex-1 px-4 relative h-full">
               {CONFIG.navigation.filter(item => ["home", "testimonials", "products", "recommended", "combo", "blog"].includes(item.id)).map((item) => {
                 const Icon = item.id === "home" ? HomeIcon :
                              item.id === "testimonials" ? MessageSquare :
@@ -552,18 +575,26 @@ export default function App() {
                              item.id === "recommended" ? LayoutGrid :
                              item.id === "combo" ? Package :
                              item.id === "blog" ? FileText : HomeIcon;
+                const isActive = activeTab === item.id;
                 return (
                   <button
                     key={item.id}
                     onClick={() => navigateTo(item.id as any)}
-                    className={`flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-bold transition-all whitespace-nowrap py-2 px-1 border-b-2 ${
-                      activeTab === item.id 
-                        ? "text-emerald-600 border-emerald-600" 
-                        : "text-slate-500 border-transparent hover:text-emerald-500 hover:border-emerald-200"
+                    className={`relative flex items-center gap-2 text-xs xl:text-sm font-bold tracking-tight transition-all duration-300 whitespace-nowrap py-2.5 px-3 rounded-full ${
+                      isActive 
+                        ? "text-emerald-700 bg-emerald-50/70" 
+                        : "text-slate-600 hover:text-emerald-600 hover:bg-slate-50/50"
                     }`}
                   >
-                    <Icon size={16} className="xl:w-[18px] xl:h-[18px]" />
+                    <Icon size={15} className={`transition-transform duration-300 ${isActive ? 'scale-110 text-emerald-600' : 'text-slate-400'}`} />
                     {item.label}
+                    {isActive && (
+                      <motion.span 
+                        layoutId="activeTabUnderline"
+                        className="absolute inset-0 bg-emerald-100/35 border border-emerald-200/50 rounded-full -z-10"
+                        transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                      />
+                    )}
                   </button>
                 );
               })}
@@ -572,28 +603,33 @@ export default function App() {
               <div className="relative" ref={moreMenuRef}>
                 <button
                   onClick={() => setIsMoreMenuOpen(!isMoreMenuOpen)}
-                  className={`flex items-center gap-1.5 xl:gap-2 text-xs xl:text-sm font-bold transition-all whitespace-nowrap py-2 px-1 border-b-2 ${
+                  className={`flex items-center gap-1.5 text-xs xl:text-sm font-bold transition-all duration-300 whitespace-nowrap py-2.5 px-4 rounded-full ${
                     ["consultation", "history", "admin", "about"].includes(activeTab)
-                      ? "text-emerald-600 border-emerald-600"
-                      : "text-slate-500 border-transparent hover:text-emerald-500 hover:border-emerald-200"
+                      ? "text-emerald-700 bg-emerald-50/70"
+                      : "text-slate-600 hover:text-emerald-600 hover:bg-slate-50/50"
                   }`}
                 >
-                  More <ChevronRight size={16} className={`transition-transform ${isMoreMenuOpen ? 'rotate-90' : ''}`} />
+                  <span>More Connection</span>
+                  <ChevronRight size={14} className={`transition-transform duration-300 ${isMoreMenuOpen ? 'rotate-90 text-emerald-600' : 'text-slate-400'}`} />
                 </button>
 
                 <AnimatePresence>
                   {isMoreMenuOpen && (
                     <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute top-full right-0 mt-2 w-48 bg-white rounded-2xl shadow-2xl border border-slate-100 py-2 z-50"
+                      initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                      transition={{ duration: 0.15, ease: "easeOut" }}
+                      className="absolute top-full right-0 mt-2 w-56 bg-white/95 backdrop-blur-md rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-slate-150 py-2.5 z-50 origin-top-right"
                     >
-                      {CONFIG.navigation.filter(item => !["home", "testimonials", "products", "recommended", "combo", "blog"].includes(item.id)).map((item) => {
+                      <div className="px-3 py-1.5 border-b border-slate-100/85 mb-1.5">
+                        <span className="text-[10px] uppercase tracking-wider font-extrabold text-slate-400">Additional Channels</span>
+                      </div>
+                      {CONFIG.navigation.filter(item => !["home", "testimonials", "products", "recommended", "combo", "blog", "consultation"].includes(item.id)).map((item) => {
                         const Icon = item.id === "about" ? Info :
-                                     item.id === "consultation" ? Stethoscope : 
                                      item.id === "history" ? History :
                                      item.id === "admin" ? DbIcon : User;
+                        const isSubActive = activeTab === item.id;
                         return (
                           <button
                             key={item.id}
@@ -601,13 +637,13 @@ export default function App() {
                               navigateTo(item.id as any);
                               setIsMoreMenuOpen(false);
                             }}
-                            className={`flex items-center gap-3 w-full px-4 py-3 text-sm font-bold transition-all ${
-                              activeTab === item.id 
-                                ? "text-emerald-600 bg-emerald-50" 
-                                : "text-slate-600 hover:bg-slate-50 hover:text-emerald-500"
+                            className={`flex items-center gap-3 w-full px-4 py-2.5 text-xs md:text-sm font-bold transition-all ${
+                              isSubActive 
+                                ? "text-emerald-700 bg-emerald-50/80 font-extrabold" 
+                                : "text-slate-600 hover:bg-slate-50 hover:text-emerald-600"
                             }`}
                           >
-                            <Icon size={16} />
+                            <Icon size={15} className={isSubActive ? 'text-emerald-600' : 'text-slate-400'} />
                             {item.label}
                           </button>
                         );
@@ -618,7 +654,25 @@ export default function App() {
               </div>
             </nav>
 
-            <div className="flex items-center gap-2 md:gap-4 flex-shrink-0">
+            <div className="flex items-center gap-2 xl:gap-3 flex-shrink-0">
+              {/* Premium Floating Consultation Button on Desktop Header */}
+              <div className="hidden lg:block mr-1">
+                <button
+                  onClick={() => navigateTo("consultation")}
+                  className={`group relative overflow-hidden flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-black tracking-wider uppercase transition-all duration-300 ${
+                    activeTab === "consultation"
+                      ? "bg-emerald-600 text-white shadow-[0_4px_20px_rgba(16,185,129,0.3)]"
+                      : "bg-emerald-55 bg-gradient-to-r from-emerald-50 to-emerald-100/50 text-emerald-700 hover:from-emerald-600 hover:to-emerald-700 hover:text-white border border-emerald-100 shadow-sm hover:shadow-[0_8px_30px_rgba(16,185,129,0.2)] hover:scale-105 active:scale-95"
+                  }`}
+                >
+                  <span className="relative flex h-2 w-2">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                  </span>
+                  <Stethoscope size={14} className="group-hover:rotate-12 transition-transform duration-300" />
+                  <span>Free Consultation</span>
+                </button>
+              </div>
               <div className={`flex items-center transition-all duration-300 ${isSearchVisible ? 'w-40 md:w-64' : 'w-10'}`}>
                 <AnimatePresence mode="wait">
                   {isSearchVisible ? (

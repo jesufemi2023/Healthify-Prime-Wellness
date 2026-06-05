@@ -150,139 +150,242 @@ export function Home({
   return (
     <div className="space-y-8 md:space-y-10 pb-12">
       
-      {/* 1. Hero Section - Full Screen Display */}
-      <section className="relative h-[calc(100vh-4rem)] md:h-[calc(100vh-5rem)] w-full overflow-hidden bg-black group">
-        <div className="absolute inset-0">
-          {heroImages.map((img, index) => (
+      {/* 1. Hero Section - Majestic Editorial Split Brand Grid */}
+      <section className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] w-full overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 flex items-center py-10 md:py-16">
+        {/* Subtle atmospheric ambient glow effects */}
+        <div className="absolute top-0 right-0 w-2/3 h-full overflow-hidden pointer-events-none z-0 opacity-40">
+          <div className="absolute top-1/4 -right-1/4 w-[500px] h-[500px] bg-emerald-600 rounded-full blur-[160px]"></div>
+          <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-teal-600 rounded-full blur-[140px]"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center relative z-10">
+          
+          {/* Left Column: Brand Column (Editorial Text & Main Call To Action) */}
+          <div className="lg:col-span-6 flex flex-col items-start text-left space-y-6 md:space-y-8">
             <motion.div
-              key={index}
-              className="absolute inset-0 flex items-center justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ 
-                opacity: index === currentHeroIndex ? 1 : 0,
-              }}
-              transition={{ 
-                opacity: { duration: 1.2, ease: "easeInOut" }
-              }}
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="inline-flex items-center gap-2 px-3 py-1.5 bg-emerald-500/10 border border-emerald-400/25 rounded-full text-[10px] md:text-xs font-black uppercase tracking-[0.2em] text-emerald-400"
             >
-              {/* Blurred background to fill space without cropping */}
-              <img 
-                src={getOptimizedImageUrl(img, 1200)} 
-                alt="" 
-                className="absolute inset-0 w-full h-full object-cover blur-3xl opacity-40 scale-110"
-                referrerPolicy="no-referrer"
-              />
-              {/* Main image - now using object-contain to show full image */}
-              <img 
-                src={getOptimizedImageUrl(img, 1200)} 
-                alt={`Hero image ${index + 1}`} 
-                className="relative w-full h-full object-contain z-10"
-                referrerPolicy="no-referrer"
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = `https://picsum.photos/seed/healthcare-supplement-${index}/1200/675`;
-                }}
-              />
-              {/* Subtle Overlay for readability only if needed */}
-              <div className="absolute inset-0 bg-black/20"></div>
+              <Sparkles size={12} className="animate-pulse" />
+              <span>Global Wellness Portfolio</span>
             </motion.div>
-          ))}
-        </div>
 
-        {/* Authority Labels on Sides */}
-        <div className="absolute inset-0 z-20 pointer-events-none hidden lg:flex items-center justify-between px-6 xl:px-12">
-          {/* Left Side Labels */}
-          <div className="flex flex-col gap-6">
-            {[
-              { icon: Globe, title: "Free Delivery", desc: "Across Nigeria", highlight: true },
-              { icon: Leaf, title: "100% Organic", desc: "Pure herbal" },
-            ].map((item, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, x: -50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.5 + (i * 0.2) }}
-                className={`flex items-center gap-4 p-4 rounded-2xl backdrop-blur-md border border-white/10 pointer-events-auto w-64 ${item.highlight ? 'bg-emerald-600/90 text-white shadow-2xl' : 'bg-white/10 text-white'}`}
-              >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${item.highlight ? 'bg-white/20 text-white' : 'bg-emerald-500/20 text-emerald-400'}`}>
-                  <item.icon size={24} />
-                </div>
-                <div className="text-left min-w-0">
-                  <h4 className="font-black text-sm uppercase tracking-tight leading-none mb-1 truncate">{item.title}</h4>
-                  <p className={`text-[10px] font-bold truncate ${item.highlight ? 'text-emerald-100' : 'text-white/60'}`}>{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* Right Side Labels */}
-          <div className="flex flex-col gap-6">
-            {[
-              { icon: Truck, title: "Worldwide", desc: "Any country", highlight: true },
-              { icon: Award, title: "Expert Formulated", desc: "Backed by science" }
-            ].map((item, i) => (
-              <motion.div 
-                key={i}
-                initial={{ opacity: 0, x: 50 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 1.5 + (i * 0.2) }}
-                className={`flex items-center gap-4 p-4 rounded-2xl backdrop-blur-md border border-white/10 pointer-events-auto w-64 ${item.highlight ? 'bg-emerald-600/90 text-white shadow-2xl' : 'bg-white/10 text-white'}`}
-              >
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${item.highlight ? 'bg-white/20 text-white' : 'bg-emerald-500/20 text-emerald-400'}`}>
-                  <item.icon size={24} />
-                </div>
-                <div className="text-left min-w-0">
-                  <h4 className="font-black text-sm uppercase tracking-tight leading-none mb-1 truncate">{item.title}</h4>
-                  <p className={`text-[10px] font-bold truncate ${item.highlight ? 'text-emerald-100' : 'text-white/60'}`}>{item.desc}</p>
-                </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-        
-        <div className="relative z-10 h-full flex flex-col items-end justify-end p-10 pointer-events-none">
-          <motion.div 
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            className="pointer-events-auto"
-          >
-            <button 
-              onClick={() => onNavigate('products')}
-              className="bg-emerald-600 text-white px-8 py-4 rounded-full font-black text-xl hover:bg-emerald-500 transition-all duration-300 shadow-2xl hover:scale-105 active:scale-95 flex items-center justify-center gap-3"
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="space-y-5"
             >
-              Shop Now <ShoppingBag size={24} />
-            </button>
-          </motion.div>
-        </div>
+              <h1 className="text-4xl sm:text-5xl md:text-6xl xl:text-7xl font-sans font-black tracking-tight text-white leading-[1.05]">
+                RECLAIM <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 font-serif font-black italic">YOUR VITALITY</span> <br />
+                CONQUER CHRONIC <br />
+                AILMENTS.
+              </h1>
+              <p className="text-base md:text-xl text-slate-200 font-semibold leading-relaxed max-w-2xl bg-slate-950/20 backdrop-blur-sm p-3.5 rounded-2xl border border-white/5">
+                Join over <span className="text-emerald-400 underline decoration-2 decoration-teal-400">45,000+ healthy Nigerians</span>. Professional-grade Traditional Chinese Medicine & NAFDAC-approved herbal formulations targeting cells to heal disease from the roots up.
+              </p>
+            </motion.div>
 
-        {/* Carousel Indicators */}
-        <div className="absolute bottom-10 left-0 right-0 flex justify-center gap-4 z-20">
-          {heroImages.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentHeroIndex(index)}
-              className={`h-1.5 rounded-full transition-all duration-500 ${
-                index === currentHeroIndex ? "bg-emerald-400 w-12" : "bg-white/30 w-6 hover:bg-white/60"
-              }`}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
-        
-        {/* Carousel Controls */}
-        <div className="hidden md:block">
-          <button 
-            onClick={() => setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
-            className="absolute left-8 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-slate-900 z-20"
-          >
-            <ChevronLeft size={32} />
-          </button>
-          <button 
-            onClick={() => setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)}
-            className="absolute right-8 top-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/10 text-white flex items-center justify-center backdrop-blur-md border border-white/20 opacity-0 group-hover:opacity-100 transition-all hover:bg-white hover:text-slate-900 z-20"
-          >
-            <ChevronRight size={32} />
-          </button>
+            {/* Crucial Trust Selling Bullet Points */}
+            <motion.div 
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="space-y-2.5 text-slate-300 text-sm font-bold w-full"
+            >
+              <div className="flex items-center gap-2.5">
+                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
+                <span>NAFDAC Certified Formulas: 100% Safe, Tested, and Non-Toxic</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
+                <span>Premium Traditional Chinese Medicine (TCM) with Bio-Active Organic Extracts</span>
+              </div>
+              <div className="flex items-center gap-2.5">
+                <span className="w-5 h-5 bg-emerald-500/20 border border-emerald-400 text-emerald-400 rounded-full flex items-center justify-center text-xs shrink-0 font-extrabold">✓</span>
+                <span>Pay on Delivery across Nigeria, with Free Express Delivery and real Tracking support</span>
+              </div>
+            </motion.div>
+
+            {/* Interactive Symptom Helper - Instantly connect users to the right product */}
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.25 }}
+              className="bg-slate-900/40 p-4 rounded-3xl border border-white/10 w-full space-y-3"
+            >
+              <div className="flex items-center gap-2 text-xs font-black uppercase text-emerald-400 tracking-wider">
+                <Activity size={14} className="animate-pulse" />
+                <span>What health solution are you looking for?</span>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {[
+                  { label: "Diabetes & Blood Sugar", searchKey: "dia" },
+                  { label: "High Blood Pressure", searchKey: "tension" },
+                  { label: "Fibroids & Infertility", searchKey: "female" },
+                  { label: "Prostate Health", searchKey: "men" },
+                  { label: "Ulcers & Stomach", searchKey: "sto" },
+                  { label: "Detox & Total Purifying", searchKey: "tea" }
+                ].map((ailment, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => {
+                      onNavigate('products');
+                      // Wait short moment to allow tab state to mount input search box
+                      setTimeout(() => {
+                        const input = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
+                        if (input) {
+                          input.value = ailment.searchKey;
+                          input.dispatchEvent(new Event('input', { bubbles: true }));
+                          input.focus();
+                        }
+                      }, 100);
+                    }}
+                    className="text-xs font-semibold px-3 py-1.5 rounded-xl bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 border border-white/10 transition-all duration-300 shadow-sm"
+                  >
+                    + {ailment.label}
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+
+            {/* Premium CTA Buttons */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto"
+            >
+              <button
+                onClick={() => onNavigate('products')}
+                className="w-full sm:w-auto px-8 py-4.5 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-base tracking-wide hover:from-emerald-400 hover:to-teal-400 hover:scale-105 active:scale-95 transition-all duration-300 shadow-[0_10px_35px_rgba(16,185,129,0.35)] flex items-center justify-center gap-2"
+              >
+                <span>Shop Certified Formulas</span>
+                <ShoppingBag size={18} />
+              </button>
+              <button
+                onClick={() => onNavigate('consultation')}
+                className="w-full sm:w-auto px-8 py-4.5 rounded-full bg-white/10 hover:bg-white/15 text-white font-extrabold text-base tracking-wide border border-white/20 hover:border-white/40 transition-all duration-300 flex items-center justify-center gap-2"
+              >
+                <span>Ask Doctor / Consultation</span>
+                <ArrowRight size={18} />
+              </button>
+            </motion.div>
+
+            {/* Dynamic Real-time Marketing Stock alert */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="text-xs font-bold text-amber-400/95 flex items-center gap-1.5"
+            >
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-ping"></span>
+              <span>🔥 17 packages dispatched to Lagos, Port Harcourt, and Abuja in the last 2 hours of today! Stock is limited.</span>
+            </motion.div>
+
+            {/* Integrated Authority Badges below the CTA */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.45 }}
+              className="grid grid-cols-2 gap-4 pt-6 border-t border-white/10 w-full"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 shrink-0">
+                  <Globe size={18} />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-black uppercase text-white tracking-wider leading-none mb-0.5">Free Delivery</h4>
+                  <p className="text-[10px] text-slate-400/90 font-medium font-bold">Nigeria & Worldwide</p>
+                </div>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-emerald-400 shrink-0">
+                  <Leaf size={18} />
+                </div>
+                <div>
+                  <h4 className="text-[11px] font-black uppercase text-white tracking-wider leading-none mb-0.5">100% Organic</h4>
+                  <p className="text-[10px] text-slate-400/90 font-medium font-bold">Bio-active herbal extracts</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Right Column: Visual Showcase Rotating supplementing images */}
+          <div className="lg:col-span-6 w-full flex flex-col items-center justify-center relative">
+            <div className="relative w-full aspect-[5/4] sm:aspect-[4/3] lg:aspect-square max-w-[520px] rounded-3xl overflow-hidden bg-slate-900/40 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-sm flex items-center justify-center p-4 group/carousel">
+              
+              {/* Image Track */}
+              <div className="absolute inset-0">
+                {heroImages.map((img, index) => (
+                  <motion.div
+                    key={index}
+                    className="absolute inset-0 flex items-center justify-center p-6 md:p-10"
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ 
+                      opacity: index === currentHeroIndex ? 1 : 0,
+                      scale: index === currentHeroIndex ? 1 : 0.95
+                    }}
+                    transition={{ 
+                      duration: 0.8,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {/* Atmospheric Blurred backdrop overlay */}
+                    <img 
+                      src={getOptimizedImageUrl(img, 600)} 
+                      alt="" 
+                      className="absolute inset-0 w-full h-full object-cover blur-2xl opacity-20 scale-110 pointer-events-none"
+                      referrerPolicy="no-referrer"
+                    />
+                    {/* Main transparent / product display */}
+                    <img 
+                      src={getOptimizedImageUrl(img, 800)} 
+                      alt={`Featured Formula ${index + 1}`} 
+                      className="relative max-w-full max-h-full object-contain z-10 select-none drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] transform hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://picsum.photos/seed/supplement-hero-${index}/800/600`;
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Slider Controls */}
+              <button 
+                onClick={() => setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 z-20 hover:scale-105"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft size={20} />
+              </button>
+              <button 
+                onClick={() => setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-black/60 hover:bg-emerald-600 text-white flex items-center justify-center backdrop-blur-md border border-white/10 opacity-0 group-hover/carousel:opacity-100 transition-all duration-300 z-20 hover:scale-105"
+                aria-label="Next Slide"
+              >
+                <ChevronRight size={20} />
+              </button>
+
+              {/* Carousel Indicators overlaying the visual */}
+              <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2 z-20">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentHeroIndex(index)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      index === currentHeroIndex ? "bg-emerald-400 w-8" : "bg-white/20 w-3 hover:bg-white/40"
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
         </div>
       </section>
 
