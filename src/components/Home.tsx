@@ -151,16 +151,16 @@ export function Home({
     <div className="space-y-8 md:space-y-10 pb-12">
       
       {/* 1. Hero Section - Majestic Editorial Brand Trilogy Grid */}
-      <section className="relative min-h-[calc(100vh-4rem)] md:min-h-[calc(100vh-5rem)] w-full overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 flex items-center py-10 md:py-16">
+      <section className="relative min-h-0 lg:min-h-[calc(100vh-5rem)] w-full overflow-hidden bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-950 flex items-center py-10 md:py-16">
         {/* Subtle atmospheric ambient glow effects */}
         <div className="absolute top-0 right-0 w-2/3 h-full overflow-hidden pointer-events-none z-0 opacity-40">
           <div className="absolute top-1/4 -right-1/4 w-[500px] h-[500px] bg-emerald-600 rounded-full blur-[160px]"></div>
           <div className="absolute top-1/2 right-1/4 w-[400px] h-[400px] bg-teal-600 rounded-full blur-[140px]"></div>
         </div>
 
-        <div className="max-w-7xl mx-auto px-6 md:px-8 w-full grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
+        <div className="hidden lg:grid max-w-7xl mx-auto px-6 md:px-8 w-full lg:grid-cols-12 gap-8 lg:gap-10 items-center relative z-10">
           
-          {/* First Section (Left Column: 25% Desktop Allocation / Top Position on Mobile) */}
+          {/* First Section (Left Column: 25% Desktop Allocation) */}
           <div className="lg:col-span-3 flex flex-col items-start text-left space-y-5">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -214,7 +214,7 @@ export function Home({
 
           {/* Second Section (Middle Column: 50% Desktop Allocation / Multi-Item Image Carousel) */}
           <div className="lg:col-span-6 w-full flex flex-col items-center justify-center relative">
-            <div className="relative w-full aspect-square sm:aspect-[4/3] lg:h-[480px] rounded-3xl overflow-hidden bg-slate-900/40 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-sm flex items-center justify-center p-2 group/carousel">
+            <div className="relative w-full aspect-square sm:aspect-[4/3] lg:h-[480px] rounded-3xl overflow-hidden bg-slate-900/40 border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.3)] backdrop-blur-[2px] flex items-center justify-center p-2 group/carousel">
               
               {/* Image Track */}
               <div className="absolute inset-0">
@@ -287,7 +287,7 @@ export function Home({
             </div>
           </div>
 
-          {/* Third Section (Right Column: 25% Desktop Allocation / Bottom Position on Mobile) */}
+          {/* Third Section (Right Column: 25% Desktop Allocation) */}
           <div className="lg:col-span-3 flex flex-col items-start text-left space-y-5">
             <motion.div
               initial={{ opacity: 0, y: 15 }}
@@ -301,48 +301,6 @@ export function Home({
               <p className="text-xs text-slate-300 font-bold leading-relaxed">
                 Experience clinical-grade Traditional Chinese Medicine (TCM) and premium NAFDAC organic formulas designed to target roots for biological balance.
               </p>
-            </motion.div>
-
-            {/* Interactive Symptom Helper inside Column 3 */}
-            <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.25 }}
-              className="bg-slate-900/40 p-3.5 rounded-2xl border border-white/10 w-full space-y-2.5"
-            >
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase text-emerald-400 tracking-wider">
-                <Activity size={12} className="animate-pulse" />
-                <span>What are you treating?</span>
-              </div>
-              <div className="flex flex-wrap gap-1.5">
-                {[
-                  { label: "Diabetes & Sugar", searchKey: "dia" },
-                  { label: "High BP / Tension", searchKey: "tension" },
-                  { label: "Female Pelvic Care", searchKey: "female" },
-                  { label: "Prostate Wellness", searchKey: "men" },
-                  { label: "Stomach Ulcer", searchKey: "sto" },
-                  { label: "Detoxification", searchKey: "tea" }
-                ].map((ailment, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => {
-                      onNavigate('products');
-                      // Wait short moment to allow tab state to mount input search box
-                      setTimeout(() => {
-                        const input = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement;
-                        if (input) {
-                          input.value = ailment.searchKey;
-                          input.dispatchEvent(new Event('input', { bubbles: true }));
-                          input.focus();
-                        }
-                      }, 100);
-                    }}
-                    className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white/5 hover:bg-emerald-500 hover:text-white text-slate-300 border border-white/5 transition-all duration-300"
-                  >
-                    + {ailment.label}
-                  </button>
-                ))}
-              </div>
             </motion.div>
 
             {/* Crucial Trust Selling Indicators */}
@@ -375,29 +333,141 @@ export function Home({
           </div>
 
         </div>
-      </section>
 
-      {/* 2. Authority Bar (Mobile Only) */}
-      <section className="lg:hidden bg-white py-6 shadow-sm border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="grid grid-cols-2 gap-3">
-            {[
-              { icon: Globe, title: "Free Delivery", desc: "Across Nigeria", highlight: true },
-              { icon: Truck, title: "Worldwide", desc: "Any country", highlight: true },
-              { icon: Leaf, title: "100% Organic", desc: "Pure herbal" },
-              { icon: Award, title: "Expert Formulated", desc: "Backed by science" }
-            ].map((item, i) => (
-              <div key={i} className={`flex items-center gap-2 p-3 rounded-xl transition-all ${item.highlight ? 'bg-emerald-600 text-white shadow-lg' : 'bg-emerald-50 text-emerald-600'}`}>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center shrink-0 ${item.highlight ? 'bg-white/20 text-white' : 'bg-emerald-100 text-emerald-600'}`}>
-                  <item.icon className="w-5 h-5" />
-                </div>
-                <div className="text-left min-w-0">
-                  <h4 className={`font-black text-[10px] uppercase tracking-tight leading-none mb-0.5 truncate ${item.highlight ? 'text-white' : 'text-slate-900'}`}>{item.title}</h4>
-                  <p className={`text-[8px] font-bold truncate ${item.highlight ? 'text-emerald-100' : 'text-slate-500'}`}>{item.desc}</p>
-                </div>
-              </div>
-            ))}
+        {/* ----------------- TABLET AND MOBILE ULTRA-OPTIMIZED VIEW ----------------- */}
+        <div className="lg:hidden w-full px-5 flex flex-col justify-between h-[660px] sm:h-[720px] md:h-[780px] relative z-10 gap-3">
+          
+          {/* First Subsection: 10% space - Heading and Subheading only */}
+          <div className="h-[10%] sm:h-[10%] flex flex-col justify-center items-center text-center">
+            <h1 className="text-2xl sm:text-3xl font-sans font-black tracking-tight text-white leading-none">
+              RECLAIM <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-300 font-serif font-black italic">YOUR VITALITY</span>
+            </h1>
+            <p className="text-[10px] sm:text-xs text-slate-300 font-extrabold uppercase tracking-widest mt-1.5">
+              Organic Traditional Chinese Medicine
+            </p>
           </div>
+
+          {/* Second Subsection: 60% space on mobile / 70% space on tablet - Carousel filling completely horizontally and vertically */}
+          <div className="h-[60%] sm:h-[70%] w-full relative">
+            <div className="w-full h-full rounded-2xl overflow-hidden bg-slate-900/60 border border-white/10 shadow-[0_15px_35px_rgba(0,0,0,0.4)] relative group/mobile-carousel">
+              
+              {/* Image Track */}
+              <div className="absolute inset-0">
+                {heroImages.map((img, index) => (
+                  <motion.div
+                    key={index}
+                    className="absolute inset-0"
+                    initial={{ opacity: 0 }}
+                    animate={{ 
+                      opacity: index === currentHeroIndex ? 1 : 0
+                    }}
+                    transition={{ 
+                      duration: 0.7,
+                      ease: "easeInOut"
+                    }}
+                  >
+                    {/* Background fill */}
+                    <img 
+                      src={getOptimizedImageUrl(img, 600)} 
+                      alt="" 
+                      className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 scale-105 pointer-events-none"
+                      referrerPolicy="no-referrer"
+                    />
+                    {/* Main carousel image occupying all 2nd section scope */}
+                    <img 
+                      src={getOptimizedImageUrl(img, 800)} 
+                      alt={`Featured Supplement ${index + 1}`} 
+                      className="w-full h-full object-cover select-none"
+                      referrerPolicy="no-referrer"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = `https://picsum.photos/seed/supplement-hero-${index}/800/600`;
+                      }}
+                    />
+                  </motion.div>
+                ))}
+              </div>
+
+              {/* Slider Controls for touch/navigation */}
+              <button 
+                onClick={() => setCurrentHeroIndex((prev) => (prev - 1 + heroImages.length) % heroImages.length)}
+                className="absolute left-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-95 transition-all z-20"
+                aria-label="Previous Slide"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button 
+                onClick={() => setCurrentHeroIndex((prev) => (prev + 1) % heroImages.length)}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 w-8 h-8 rounded-full bg-black/60 text-white flex items-center justify-center backdrop-blur-md border border-white/10 active:scale-95 transition-all z-20"
+                aria-label="Next Slide"
+              >
+                <ChevronRight size={16} />
+              </button>
+
+              {/* Carousel Indicators */}
+              <div className="absolute bottom-3 left-0 right-0 flex justify-center gap-1.5 z-20">
+                {heroImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentHeroIndex(index)}
+                    className="h-1 rounded-full transition-all duration-300"
+                    style={{
+                      width: index === currentHeroIndex ? "24px" : "8px",
+                      backgroundColor: index === currentHeroIndex ? "#34d399" : "rgba(255,255,255,0.2)"
+                    }}
+                    aria-label={`Go to slide ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Third Subsection: 30% space on mobile / 20% space on tablet - Short, convincing, professional, understandably organized marketing elements */}
+          <div className="h-[30%] sm:h-[20%] flex flex-col justify-between py-2 md:py-2.5 px-4 bg-slate-950/30 border border-white/10 backdrop-blur-md rounded-2xl">
+            
+            {/* Highly persuasive precise copy */}
+            <div className="text-center">
+              <p className="text-xs sm:text-sm text-slate-100 font-extrabold leading-relaxed">
+                Reverse chronic disease starting at the cell. Over <span className="text-emerald-400 font-black underline decoration-emerald-400">45,000+ healthy Nigerians</span> trust our active, NAFDAC-certified formulations.
+              </p>
+            </div>
+
+            {/* Professionally Arranged Indicators (100% Organic, Expert Formulated, NAFDAC approved) */}
+            <div className="flex justify-center items-center gap-3 py-1 sm:py-1.5 border-y border-white/5">
+              <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-black">
+                <Leaf size={12} className="text-emerald-400 shrink-0" />
+                <span>100% Organic</span>
+              </div>
+              <div className="h-2 w-[1px] bg-white/20"></div>
+              <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-black">
+                <Award size={12} className="text-teal-400 shrink-0" />
+                <span>Expert formulated</span>
+              </div>
+              <div className="h-2 w-[1px] bg-white/20"></div>
+              <div className="flex items-center gap-1.5 text-[10px] text-slate-300 font-black">
+                <span className="text-emerald-400 font-extrabold">✓</span>
+                <span>NAFDAC Approved</span>
+              </div>
+            </div>
+
+            {/* Action buttons CTA stack */}
+            <div className="flex gap-2.5 w-full">
+              <button
+                onClick={() => onNavigate('products')}
+                className="flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 text-white font-extrabold text-[11px] uppercase tracking-wider shadow-lg flex items-center justify-center gap-1.5 hover:scale-[1.02] active:scale-95 transition-all"
+              >
+                <span>Shop Certified</span>
+                <ShoppingBag size={12} />
+              </button>
+              <button
+                onClick={() => onNavigate('consultation')}
+                className="flex-1 py-2 sm:py-2.5 px-3 rounded-xl bg-white/10 text-white font-extrabold text-[11px] uppercase tracking-wider border border-white/20 flex items-center justify-center gap-1.5 hover:bg-white/15 active:scale-95 transition-all"
+              >
+                <span>Ask Consultant</span>
+                <ArrowRight size={12} />
+              </button>
+            </div>
+          </div>
+
         </div>
       </section>
 
