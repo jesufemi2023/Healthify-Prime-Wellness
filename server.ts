@@ -382,9 +382,13 @@ export async function createServer() {
         try {
           let url = prod.image_url;
           if (url.startsWith('/')) {
-            url = `http://localhost:3000${url}`;
+            const host = req.get('host') || 'localhost:3000';
+            const protocol = host.startsWith('localhost') ? 'http' : 'https';
+            url = `${protocol}://${host}${url}`;
           } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
-            url = `http://localhost:3000/${url}`;
+            const host = req.get('host') || 'localhost:3000';
+            const protocol = host.startsWith('localhost') ? 'http' : 'https';
+            url = `${protocol}://${host}/${url}`;
           }
           const imgRes = await fetch(url);
           if (imgRes.ok) {
@@ -408,6 +412,222 @@ export async function createServer() {
     } catch (e: any) {
       console.error("Product images base64 error:", e);
       res.status(500).json({ error: e.message });
+    }
+  });
+
+  // Specific route for AI Combo Image Generation (MUST be before generic /api/admin/:table)
+  app.post("/api/admin/generate-combo-image", adminAuth, async (req, res) => {
+    const { product_ids, name } = req.body;
+    if (!product_ids || !Array.isArray(product_ids)) {
+      return res.status(400).json({ error: "product_ids array is required" });
+    }
+
+    if (!supabase) return res.status(503).json({ error: "Database not configured" });
+
+    try {
+      // Filter out invalid UUIDs to prevent PostgreSQL "invalid input syntax for type uuid" errors
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+      const validProductIds = product_ids.filter(id => id && typeof id === 'string' && uuidRegex.test(id));
+
+      if (validProductIds.length === 0) {
+        return res.status(400).json({ error: "No valid product_ids provided" });
+      }
+
+      const { data: products, error } = await supabase
+        .from('products')
+        .select('name, image_url')
+        .in('id', validProductIds);
+
+      if (error) throw error;
+
+      const images: { name: string, base64: string, mimeType: string }[] = [];
+      const referenceProducts = (products || []).filter(p => p.image_url).slice(0, 3);
+
+      for (const prod of referenceProducts) {
+        try {
+          let url = prod.image_url;
+          if (url.startsWith('/')) {
+            const host = req.get('host') || 'localhost:3000';
+            const protocol = host.startsWith('localhost') ? 'http' : 'https';
+            url = `${protocol}://${host}${url}`;
+          } else if (!url.startsWith('http://') && !url.startsWith('https://')) {
+            const host = req.get('host') || 'localhost:3000';
+            const protocol = host.startsWith('localhost') ? 'http' : 'https';
+            url = `${protocol}://${host}/${url}`;
+          }
+          const imgRes = await fetch(url);
+          if (imgRes.ok) {
+            const buffer = await imgRes.arrayBuffer();
+            const base64 = Buffer.from(buffer).toString('base64');
+            const mimeType = imgRes.headers.get('content-type') || 'image/png';
+            images.push({
+              name: prod.name,
+              base64,
+              mimeType
+            });
+          }
+        } catch (e) {
+          console.error(`Failed to fetch image for reference inside server-side generation:`, e);
+        }
+      }
+
+      // Initialize Gemini Client via secure AIService Key Rotation Manager
+      const aiService = getAIService();
+      const apiKey = await aiService['keyManager'].getNextKey();
+      if (!apiKey) {
+        throw new Error("No Gemini API key available for image generation.");
+      }
+
+      // Initialize GoogleGenAI SDK securely
+      const { GoogleGenAI } = await import("@google/genai");
+      const googleGenAI = new GoogleGenAI({ apiKey });
+
+      const parts: any[] = [];
+      for (const img of images) {
+        parts.push({
+          inlineData: {
+            data: img.base64,
+            mimeType: img.mimeType
+          }
+        });
+      }
+
+      parts.push({ text: `Generate a professional studio photograph of a premium wellness combo package named "${name || 'Wellness Kit'}". It should look like a cohesive "Master Kit" or "Luxury Collection". The kit contains ${product_ids.length} products in total. Use the provided product images as visual references for the branding, bottle shapes, and label styles. Arrange them elegantly with soft lighting and emerald green accents.` });
+
+      const response = await googleGenAI.models.generateContent({
+        model: "gemini-2.5-flash-image",
+        contents: { parts },
+        config: {
+          imageConfig: {
+            aspectRatio: "1:1"
+          }
+        }
+      });
+
+      let imageUrl = "";
+      if (response.candidates?.[0]?.content?.parts) {
+        for (const part of response.candidates[0].content.parts) {
+          if (part.inlineData) {
+            imageUrl = `data:${part.inlineData.mimeType || 'image/png'};base64,${part.inlineData.data}`;
+            break;
+          }
+        }
+      }
+
+      if (!imageUrl) {
+        throw new Error("Failed to generate image from AI candidates");
+      }
+
+      res.json({ imageUrl });
+    } catch (e: any) {
+      console.error("Server-side combo image generation error:", e);
+      res.status(500).json({ error: e.message || "Failed to generate combo image" });
+    }
+  });
+
+
+
+  // Specific route for blog content and image generation (CORS/Cope-safe server-side implementation)
+  app.post("/api/admin/generate-blog", adminAuth, async (req, res) => {
+    const { topic, category } = req.body;
+    if (!topic || !category) {
+      return res.status(400).json({ error: "Topic and Category are required" });
+    }
+
+    try {
+      // 1. Define Category Rules for Packages
+      let packageSearchTerm = '';
+      let packageProducts: string[] = [];
+      
+      if (category === 'Erectile Dysfunction' || category === 'Premature Ejaculation' || category === 'Men\'s Health') {
+        packageSearchTerm = 'Weak Erection';
+        packageProducts = ['Zinc', 'Reodoe Capsules', 'Vigor Max Softgel'];
+      } else if (category === 'Prostate Health') {
+        packageSearchTerm = 'Prostate';
+        packageProducts = ['Vigor Max', 'B-Clear', 'Prostbeta'];
+      } else if (category === 'Diabetes') {
+        packageSearchTerm = 'Diabetes';
+        packageProducts = ['Constifree Tea', 'Longzit', 'Dialese', 'Myco-Balance'];
+      } else {
+        packageSearchTerm = 'Wellness';
+      }
+
+      // 2. Generate Content with AI
+      const prompt = `
+        Generate a comprehensive, SEO-optimized health blog article for the topic: "${topic}" in the category: "${category}".
+        
+        The article MUST include:
+        1. An SEO-optimized title.
+        2. A detailed introduction educating the visitor about the health issue.
+        3. Educational sections with clear headings and bullet points.
+        4. Health tips.
+        5. A "Real Customer Experience" section using a WhatsApp-style testimonial conversation between a customer and a consultant. Include chat bubbles, contact name, timestamp, and profile picture placeholders. Make it sound realistic and believable.
+        6. A recommendation section for a supplement package. If the category is ${category}, recommend a package containing: ${packageProducts.join(', ')}.
+        7. An FAQ section with at least 3 common questions.
+        8. A conclusion.
+        9. A list of 3 "Related Articles" titles.
+
+        The tone must be educational and trustworthy, not like direct sales content.
+
+        Format the entire response as a JSON object with the following structure:
+        {
+          "title": "...",
+          "meta_description": "...",
+          "content": "Markdown formatted content. For the WhatsApp testimonial, use blockquotes or specific markdown to represent chat bubbles. For the package recommendation, create a visually appealing section in markdown.",
+          "tags": ["${category}", "health", "wellness", "tips"],
+          "image_prompt": "A professional, medical-grade, realistic photo or 3D illustration representing ${topic}. Not cartoonish."
+        }
+      `;
+
+      const aiService = getAIService();
+      const aiResponse = await aiService.generateResponse(prompt, "", "gemini-3.1-flash-lite-preview", "application/json");
+
+      let blogData;
+      try {
+        const jsonStr = aiResponse.replace(/```json\n?|\n?```/g, '').trim();
+        blogData = JSON.parse(jsonStr || '{}');
+      } catch (e) {
+        console.error("Failed to parse AI response as JSON.", aiResponse);
+        throw new Error("The AI failed to format the article correctly. Please try again.");
+      }
+
+      // 3. Generate Image with AI
+      let image_url = `https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=800&auto=format&fit=crop`; // High quality medical fallback
+      try {
+        const imagePrompt = blogData.image_prompt || `Professional medical photo about ${topic}`;
+        const generatedImage = await aiService.generateImage(imagePrompt);
+        if (generatedImage) {
+          image_url = generatedImage;
+        } else {
+          // Use a themed fallback based on category
+          const seeds: Record<string, string> = {
+            'Diabetes': '1584036561566-baf8f5f1b144',
+            'Prostate Health': '1576091160550-2173dba999ef',
+            'Wellness': '1544367567-0f2fcb009e0b'
+          };
+          const photoId = seeds[category] || '1576091160550-2173dba999ef';
+          image_url = `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`;
+        }
+      } catch (e: any) {
+        console.error("Failed to generate image, using high-quality fallback:", e);
+        const seeds: Record<string, string> = {
+          'Diabetes': '1584036561566-baf8f5f1b144',
+          'Prostate Health': '1576091160550-2173dba999ef',
+          'Wellness': '1544367567-0f2fcb009e0b'
+        };
+        const photoId = seeds[category] || '1576091160550-2173dba999ef';
+        image_url = `https://images.unsplash.com/photo-${photoId}?q=80&w=800&auto=format&fit=crop`;
+      }
+
+      res.json({
+        category,
+        blogData,
+        image_url,
+        packageSearchTerm
+      });
+    } catch (error: any) {
+      console.error("Blog Generation Error:", error);
+      res.status(500).json({ error: error.message || "Failed to generate blog article" });
     }
   });
 
