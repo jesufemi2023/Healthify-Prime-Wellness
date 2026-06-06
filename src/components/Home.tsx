@@ -373,11 +373,11 @@ export function Home({
                       className="absolute inset-0 w-full h-full object-cover blur-xl opacity-20 scale-105 pointer-events-none"
                       referrerPolicy="no-referrer"
                     />
-                    {/* Main carousel image occupying all 2nd section scope */}
+                    {/* Main carousel image occupying all 2nd section scope, perfectly fitting with no crop */}
                     <img 
                       src={getOptimizedImageUrl(img, 800)} 
                       alt={`Featured Supplement ${index + 1}`} 
-                      className="w-full h-full object-cover select-none"
+                      className="w-full h-full object-contain select-none relative z-10"
                       referrerPolicy="no-referrer"
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = `https://picsum.photos/seed/supplement-hero-${index}/800/600`;
