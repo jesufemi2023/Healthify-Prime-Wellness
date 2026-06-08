@@ -513,6 +513,7 @@ export function Home({
               <ProductCard 
                 product={product}
                 onQuickView={onViewProduct}
+                onViewProduct={onViewProduct}
                 onOrder={() => onOrderProduct(product)}
               />
             </div>

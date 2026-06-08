@@ -37,7 +37,12 @@ export const ComboCard: React.FC<ComboCardProps> = ({ data, onOrder, onProductCl
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-white rounded-[3rem] border-4 border-slate-100 shadow-xl hover:shadow-3xl transition-all duration-700 overflow-hidden flex flex-col group relative"
+        onClick={() => {
+          if (data.products && data.products.length > 0) {
+            onProductClick(data.products[0]);
+          }
+        }}
+        className="bg-white rounded-[3rem] border-4 border-slate-100 shadow-xl hover:shadow-3xl transition-all duration-700 overflow-hidden flex flex-col group relative cursor-pointer"
       >
         {/* IMAGE SECTION */}
         <div className="relative h-[450px] bg-slate-50 overflow-hidden shrink-0 flex flex-col border-b-2 border-slate-100">
@@ -66,7 +71,10 @@ export const ComboCard: React.FC<ComboCardProps> = ({ data, onOrder, onProductCl
 
             {/* Quick View Button Overlay */}
             <button 
-              onClick={() => setIsQuickViewOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsQuickViewOpen(true);
+              }}
               className="absolute top-6 right-6 bg-white/95 backdrop-blur-sm p-4 rounded-3xl shadow-2xl text-slate-500 hover:text-emerald-600 hover:scale-110 transition-all z-20 border-2 border-slate-100 group/qv"
               title="Quick View"
             >
@@ -94,7 +102,10 @@ export const ComboCard: React.FC<ComboCardProps> = ({ data, onOrder, onProductCl
 
             {/* Package Includes - Clickable to open quick view */}
             <button 
-              onClick={() => setIsQuickViewOpen(true)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsQuickViewOpen(true);
+              }}
               className="w-full flex items-center justify-between p-4 bg-slate-50 rounded-2xl border-2 border-slate-100 hover:border-emerald-400 hover:bg-white transition-all group/includes"
             >
               <span className="text-sm font-black text-emerald-600 uppercase tracking-[0.2em]">
@@ -179,7 +190,8 @@ export const ComboCard: React.FC<ComboCardProps> = ({ data, onOrder, onProductCl
           <div className="mt-6 pt-6 border-t-2 border-slate-100 space-y-4">
             <div className="flex items-center gap-4">
               <button 
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   const message = `Hello SD GHT Health Care, I am interested in the ${data.name} master kit. Could you please provide more information on how I can place an order?`;
                   window.open(`https://wa.me/${CONFIG.company.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
                 }}

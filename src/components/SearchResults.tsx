@@ -108,6 +108,7 @@ export const SearchResults: React.FC<SearchResultsProps> = ({
                     key={product.id}
                     product={product}
                     onQuickView={onViewProduct}
+                    onViewProduct={onViewProduct}
                     onOrder={() => onOrderProduct(product)}
                   />
                 ))}
