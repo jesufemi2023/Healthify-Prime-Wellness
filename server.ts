@@ -554,28 +554,32 @@ export async function createServer() {
 
       // 2. Generate Content with AI
       const prompt = `
-        Generate a comprehensive, SEO-optimized health blog article for the topic: "${topic}" in the category: "${category}".
-        
-        The article MUST include:
-        1. An SEO-optimized title.
-        2. A detailed introduction educating the visitor about the health issue.
-        3. Educational sections with clear headings and bullet points.
-        4. Health tips.
-        5. A "Real Customer Experience" section using a WhatsApp-style testimonial conversation between a customer and a consultant. Include chat bubbles, contact name, timestamp, and profile picture placeholders. Make it sound realistic and believable.
-        6. A recommendation section for a supplement package. If the category is ${category}, recommend a package containing: ${packageProducts.join(', ')}.
-        7. An FAQ section with at least 3 common questions.
-        8. A conclusion.
-        9. A list of 3 "Related Articles" titles.
+        Generate an extremely high-converting, highly persuasive, and ad-focused health blog article for the topic: "${topic}" in the category: "${category}".
+        The article must act as an advertorial that combines scientific explanation with powerful, emotional copywriting to attract massive traffic and drive immediate product orders.
 
-        The tone must be educational and trustworthy, not like direct sales content.
+        The article MUST include:
+        1. A highly compelling, hook-based, curiosity-inducing SEO title (e.g., using words like "The Hidden Truth About...", "Natural Breakthrough For...", "Avoid This Silent Killer...").
+        2. A powerful, emotional introduction that details the agony of the condition, making the visitor feel understood.
+        3. Educational sections using clear, bold headings explaining the biochemical root causes (not just symptoms).
+        4. Highly convincing health tips, dietary changes, and natural therapy suggestions.
+        5. A detailed "Real Customer Experience / Verified Testimony" section formatted as an interactive consultation dialog. Use blockquotes starting with "Customer:" and "Consultant:" to represent simulated message bubbles, e.g.:
+           > Customer: Hello, is this the GHT official line? I am struggling with...
+           > Consultant: Good day. Yes! The packages we recommend target this issue.
+           Write a highly convincing, emotional testimony with realistic Nigerian names/scenarios where the patient describes how they completely overcame the problem and saved their marriage/life.
+        6. An irresistible product recommendation section. Highlight the GHT Certified "${packageSearchTerm || category} Package" containing: ${packageProducts.join(', ')}. Frame it as the premium breakthrough treatment that repairs cells, clears toxic buildup, and provides permanent relief.
+        7. An FAQ section answering 3 common, high-objection questions (e.g., "Is it NAFDAC certified?", "Is Cash on Delivery available?").
+        8. A powerful, urgency-driven conclusion prompting the reader to order immediately before the promo prices expire today.
+        9. A list of 3 high-impact "Related Articles" titles.
+
+        The tone must be authoritative, highly convincing, emotional, persuasive, and optimized for sales conversion (ad-focused).
 
         Format the entire response as a JSON object with the following structure:
         {
           "title": "...",
           "meta_description": "...",
-          "content": "Markdown formatted content. For the WhatsApp testimonial, use blockquotes or specific markdown to represent chat bubbles. For the package recommendation, create a visually appealing section in markdown.",
+          "content": "Markdown formatted content. Ensure blockquotes start with \\"Customer: \\" or \\"Consultant: \\" so the custom theme displays them as elegant interactive chat bubbles.",
           "tags": ["${category}", "health", "wellness", "tips"],
-          "image_prompt": "A professional, medical-grade, realistic photo or 3D illustration representing ${topic}. Not cartoonish."
+          "image_prompt": "A professional, premium, realistic photo or 3D medical-grade illustration representing ${topic}. High quality."
         }
       `;
 
