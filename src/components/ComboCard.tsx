@@ -38,9 +38,7 @@ export const ComboCard: React.FC<ComboCardProps> = ({ data, onOrder, onProductCl
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         onClick={() => {
-          if (data.products && data.products.length > 0) {
-            onProductClick(data.products[0]);
-          }
+          setIsQuickViewOpen(true);
         }}
         className="bg-white rounded-[3rem] border-4 border-slate-100 shadow-xl hover:shadow-3xl transition-all duration-700 overflow-hidden flex flex-col group relative cursor-pointer"
       >

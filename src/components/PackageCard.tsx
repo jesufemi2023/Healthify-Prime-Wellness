@@ -22,9 +22,7 @@ export const PackageCard: React.FC<PackageCardProps> = ({ data, allPackages, onO
     <>
       <div 
         onClick={() => {
-          if (data.products && data.products.length > 0) {
-            onViewProduct?.(data.products[0]);
-          }
+          setIsQuickViewOpen(true);
         }}
         className="flex flex-col h-full bg-white border border-slate-200 rounded-2xl md:rounded-3xl overflow-hidden hover:shadow-2xl transition-all duration-500 group relative cursor-pointer"
       >
