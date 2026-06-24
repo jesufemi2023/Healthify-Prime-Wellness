@@ -173,7 +173,7 @@ export function BlogList({ onSelectPost }: BlogListProps) {
               onClick={() => {
                 trackWhatsAppClick("Blog List Large Consultation Ad");
                 const message = `Hello SD GHT Health Care, I am visiting your blog page and I would like a free health consultation with a senior consultant.`;
-                window.open(`https://wa.me/${CONFIG.company.phone.replace(/\D/g, '')}?text=${encodeURIComponent(message)}`, '_blank');
+                window.open(`https://wa.me/${CONFIG.whatsapp.number}?text=${encodeURIComponent(message)}`, '_blank');
               }}
               className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-black px-8 py-4 rounded-2xl shadow-xl transition-all flex items-center justify-center gap-3 uppercase tracking-wider text-sm w-full lg:w-auto hover:-translate-y-1"
             >
