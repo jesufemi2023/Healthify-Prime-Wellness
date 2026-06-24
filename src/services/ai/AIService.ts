@@ -54,9 +54,12 @@ export class AIService {
         break;
       }
       // 2. Get Key & Initialize AI (Inside loop to allow key rotation on retry)
+      if (!this.keyManager.hasKeys()) {
+        throw new Error("No Gemini API key is configured. Please add the GEMINI_API_KEY environment variable in your Vercel project settings or AI Studio Secrets.");
+      }
       const key = await this.keyManager.getNextKey();
       if (!key) {
-        throw new Error("AI is currently unavailable (All API keys are exhausted). Please try again later.");
+        throw new Error("AI is currently unavailable (all configured Gemini API keys have exceeded their rate limits or daily quotas). Please try again later.");
       }
       const ai = new GoogleGenAI({ apiKey: key });
 
